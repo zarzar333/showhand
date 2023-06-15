@@ -1,17 +1,39 @@
 
 import react, { useState, CSSProperties } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import InfoWindow from './infoWindow';
+import { palette1 } from '../colors';
 
-const MarkerPin = styled.div `
+
+const MarkerPin = styled.div<{isMain: boolean, type: string}>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
   border: 1px solid white;
-  borderRadius: 50%;
-  height: 10px;
-  width: 10px;
-  backgroundColor: blue;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  height: ${props => props.isMain ? '20px' : '15px'};
+  width: ${props => props.isMain ? '20px' : '15px'};
+  background-color: ${props => palette1.get(props.type)};
   cursor: pointer;
-  zIndex: 10;
-`
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: white;
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background-color: ${props => palette1.get(props.type)};
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+  }
+`;
 
 interface MarkerProps {
   lat: number,
@@ -48,9 +70,8 @@ function renderStars(rating: number) {
   return stars;
 }
 
-
 export default function Marker(props: MarkerProps) {
-  const main = props.type == 'main';
+  const isMain = props.type == 'main';
   const pinStyle: CSSProperties = {
     position: 'absolute',
     top: '50%',
@@ -58,15 +79,20 @@ export default function Marker(props: MarkerProps) {
     border: "1px solid white",
     transform: 'translate(-50%, -50%)',
     borderRadius: "50%",
-    height: main ? 20 : 15,
-    width: main ? 20 : 15,
-    backgroundColor:  main ? "red" : "blue",
+    height: isMain ? 20 : 15,
+    width: isMain ? 20 : 15,
+    backgroundColor:  palette1.get(props.type),
     cursor: "pointer",
-    zIndex: 2
+    zIndex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '2em', 
+    color: 'white',
+  
   };
   return (
     <>
-      <div style={pinStyle}/>
+      <MarkerPin isMain={isMain} type={props.type}/>
       { props.showInfoWindow && <InfoWindow {...props} />}
     </>
   );

@@ -1,4 +1,5 @@
-import react, { useEffect, useState } from 'react';
+import react, { useEffect, useState, useContext } from 'react';
+import { AppContext } from '../context/AppContext';
 import GoogleMapReact from 'google-map-react';
 import Marker from './marker';
 import data from '../data/data.json';
@@ -35,6 +36,8 @@ export default function MainMap(props: MainMapProps) {
   const { zoom, target } = {...defaultProps, ...props};
   const [state, setState] = useState<MainMapState>({ loaded: false, nearbys: new Map()})
   const [keyToShowInfo, setKeyToShowInfo] = useState(-100);
+  const { selectedTypes } = useContext(AppContext);
+
   useEffect(() => {
     const center = {
       // @ts-ignore
@@ -87,7 +90,7 @@ export default function MainMap(props: MainMapProps) {
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: "#FF0000",
-            fillOpacity: 0.35,
+            fillOpacity: 0.07,
             map: map,
             center: state.center,
             radius: 500,
@@ -107,7 +110,9 @@ export default function MainMap(props: MainMapProps) {
           {...state.center}
         />
 
-      {Array.from(state.nearbys.values()).map((nearby) => (
+      {Array.from(state.nearbys.values())
+        .filter((nearby) => selectedTypes.includes(nearby.type) || nearby.type == 'main' )
+        .map((nearby) => (
         <Marker
           key={nearby.id}
           introduction={nearby.name}
