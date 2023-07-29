@@ -106,7 +106,7 @@ export default function MainMap(props: MainMapProps) {
         }}
         center={center}
         defaultZoom={zoom}
-        onGoogleApiLoaded={({ map, maps }) =>
+        onGoogleApiLoaded={({ map, maps }) => {
           new maps.Circle({
             strokeColor: "#FF0000",
             strokeOpacity: 0.8,
@@ -115,8 +115,18 @@ export default function MainMap(props: MainMapProps) {
             fillOpacity: 0.07,
             map: map,
             center: center,
-            radius: 600,
+            radius: 400,
           })
+          new maps.Circle({
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.07,
+            map: map,
+            center: center,
+            radius: 800,
+          })}
         }
 
         onChildClick={(key) => {
