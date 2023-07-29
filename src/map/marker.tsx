@@ -3,7 +3,7 @@ import react, { useState, CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import InfoWindow from './infoWindow';
 import { palette1 } from '../colors';
-
+import PlaceIcon from '@mui/icons-material/Place';
 
 const MarkerPin = styled.div<{isMain: boolean, type: string}>`
   position: absolute;
@@ -12,27 +12,15 @@ const MarkerPin = styled.div<{isMain: boolean, type: string}>`
   border: 1px solid white;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  height: ${props => props.isMain ? '20px' : '15px'};
-  width: ${props => props.isMain ? '20px' : '15px'};
-  background-color: ${props => palette1.get(props.type)};
+  height: ${props => props.isMain ? '10px' : '15px'};
+  width: ${props => props.isMain ? '10px' : '15px'};
+  background-color: black;
   cursor: pointer;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2em;
-  color: white;
-
-  &:after {
-    content: "";
-    position: absolute;
-    width: 2px;
-    height: 10px;
-    background-color: ${props => palette1.get(props.type)};
-    left: 50%;
-    bottom: -10px;
-    transform: translateX(-50%);
-  }
 `;
 
 interface MarkerProps {
@@ -72,27 +60,11 @@ function renderStars(rating: number) {
 
 export default function Marker(props: MarkerProps) {
   const isMain = props.type == 'main';
-  const pinStyle: CSSProperties = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    border: "1px solid white",
-    transform: 'translate(-50%, -50%)',
-    borderRadius: "50%",
-    height: isMain ? 20 : 15,
-    width: isMain ? 20 : 15,
-    backgroundColor:  palette1.get(props.type),
-    cursor: "pointer",
-    zIndex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '2em', 
-    color: 'white',
-  
-  };
   return (
     <>
-      <MarkerPin isMain={isMain} type={props.type}/>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10'}}>
+        <PlaceIcon fontSize='large' sx={{ color: palette1.get(props.type), position: 'relative', bottom: '1em' }} />
+      </div>
       { props.showInfoWindow && <InfoWindow {...props} />}
     </>
   );

@@ -22,29 +22,34 @@ interface NearByData {
   address: string,
 }
 
+interface Center {
+  lat: number,
+  lng: number,
+}
+
 interface MainMapState {
   loaded: boolean,
-  center?: {
-    lat: number,
+  targetInfo?: {
+    lat: number
     lng: number,
-    name: string,
-  },
-  nearbys: Map<number, NearByData>, 
+    name: string
+  }
+  nearbys: Map<number, NearByData>,
 }
 
 export default function MainMap(props: MainMapProps) {
   const { zoom, target } = {...defaultProps, ...props};
+  
   const [state, setState] = useState<MainMapState>({ loaded: false, nearbys: new Map()})
-  const [keyToShowInfo, setKeyToShowInfo] = useState(-100);
-  const { selectedTypes } = useContext(AppContext);
-
+  const [center, setCenter] = useState<Center>();
+  const { selectedTypes, selectedNearbyId, setSelectedNearbyId } = useContext(AppContext);
+  
   useEffect(() => {
     const center = {
       // @ts-ignore
       lat: data.targetInfo[target]['Latitude'],
       // @ts-ignore
       lng: data.targetInfo[target]['Longitude'],
-      name: target,
     }
     
     // @ts-ignore
@@ -66,15 +71,34 @@ export default function MainMap(props: MainMapProps) {
 
     setState({
       loaded: true,
-      center: center,
+      // @ts-ignore
+      targetInfo: {
+        // @ts-ignore
+        lat: data.targetInfo[target]['Latitude'],
+        // @ts-ignore
+        lng: data.targetInfo[target]['Longitude'],
+        // @ts-ignore
+        name: target,
+      },
       nearbys: nearbyData
     })
-
+    setCenter(center);
   }, [target]);
 
+  useEffect(() => {
+    if (selectedNearbyId && state.loaded && state.targetInfo) {
+      const selectedNearby = state.nearbys.get(selectedNearbyId);
+      if (selectedNearby) {
+        setCenter({
+          lat: selectedNearby.lat,
+          lng: selectedNearby.lng
+        })
+      }
+    }
+  }, [selectedNearbyId])
 
-    // Important! Always set the container height explicitly
-  if (state.loaded && state.center) {
+  if (state.loaded && state.targetInfo) {
+    console.log(center);
     return <div style={{ height: '100vh', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{
@@ -82,7 +106,7 @@ export default function MainMap(props: MainMapProps) {
           language: 'ja',
           libraries: 'geometry',
         }}
-        defaultCenter={state.center}
+        center={center}
         defaultZoom={zoom}
         onGoogleApiLoaded={({ map, maps }) =>
           new maps.Circle({
@@ -92,22 +116,22 @@ export default function MainMap(props: MainMapProps) {
             fillColor: "#FF0000",
             fillOpacity: 0.07,
             map: map,
-            center: state.center,
-            radius: 500,
+            center: center,
+            radius: 600,
           })
         }
 
         onChildClick={(key) => {
-          setKeyToShowInfo(key);
+          setSelectedNearbyId(key);
         }}
       >
         <Marker 
           key={-1}
-          introduction={state.center?.name || ''}
+          introduction={state.targetInfo?.name || ''}
           type={'main'}
-          showInfoWindow={-1 == keyToShowInfo}
+          showInfoWindow={-1 == selectedNearbyId}
           rating={4.6}
-          {...state.center}
+          {...state.targetInfo}
         />
 
       {Array.from(state.nearbys.values())
@@ -118,7 +142,7 @@ export default function MainMap(props: MainMapProps) {
           introduction={nearby.name}
           rating={4.5}
           {...nearby}
-          showInfoWindow={nearby.id == keyToShowInfo}
+          showInfoWindow={nearby.id == selectedNearbyId}
         />
       ))} 
 

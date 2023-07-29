@@ -1,28 +1,27 @@
-
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Box from '@mui/material/Box';
 import react from 'react';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TypeFilters from './TypeFilters';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
+import { data } from '../data/data';
+import { LEFT_PANE_WIDTH } from '../constants';
+import { Nearby } from '../data/Nearby';
 
 interface LeftDrawerProps {
   name: string,
 }
 
-const width = 240;
 export default function LeftDrawer({ name }: LeftDrawerProps) {
-  
+  const nearbys = data.nearby[name] as unknown as Nearby[]
   return (
       <SwipeableDrawer 
         anchor={'left'}
         variant={'permanent'}
         open={true}
         sx={{
-          width: width,
+          width: LEFT_PANE_WIDTH,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: width, boxSizing: 'border-box' },
+          [`& .MuiDrawer-paper`]: { width: LEFT_PANE_WIDTH, boxSizing: 'border-box' },
         }}
         onClose={()=>{}}
         onOpen={()=>{}}
@@ -32,7 +31,8 @@ export default function LeftDrawer({ name }: LeftDrawerProps) {
             {name}
           </Typography>
         </Toolbar>
-        <TypeFilters></TypeFilters>
+
+        <TypeFilters nearbys={nearbys} />
       </SwipeableDrawer>
   )
 }
