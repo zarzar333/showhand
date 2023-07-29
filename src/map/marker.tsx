@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import InfoWindow from './infoWindow';
 import { palette1 } from '../colors';
 import PlaceIcon from '@mui/icons-material/Place';
+import { NearByData } from '../common/model';
 
 const MarkerPin = styled.div<{isMain: boolean, type: string}>`
   position: absolute;
@@ -23,14 +24,8 @@ const MarkerPin = styled.div<{isMain: boolean, type: string}>`
   font-size: 2em;
 `;
 
-interface MarkerProps {
-  lat: number,
-  lng: number,
-  name: string,
-  introduction?: string,
-  rating: number,
-  type: string,
-  showInfoWindow: boolean,
+interface MarkerProps extends NearByData {
+  showInfoWindow: boolean
 };
 
 const Box =  styled.div`

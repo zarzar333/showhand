@@ -3,6 +3,7 @@ import { AppContext } from '../context/AppContext';
 import GoogleMapReact from 'google-map-react';
 import Marker from './marker';
 import data from '../data/data.json';
+import { NearByData } from '../common/model';
 
 interface MainMapProps {
   zoom?: number,
@@ -12,15 +13,6 @@ interface MainMapProps {
 const defaultProps = {
   zoom: 16
 };
-
-interface NearByData {
-  id: number,
-  lat: number,
-  lng: number,
-  name: string,
-  type: string, 
-  address: string,
-}
 
 interface Center {
   lat: number,
@@ -32,7 +24,8 @@ interface MainMapState {
   targetInfo?: {
     lat: number
     lng: number,
-    name: string
+    name: string,
+    address: string,
   }
   nearbys: Map<number, NearByData>,
 }
@@ -65,6 +58,9 @@ export default function MainMap(props: MainMapProps) {
           name: row['名称'],
           type: row['设施类型'],
           address: row['地址'],
+          advanced1: row['高阶数据1'],
+          advanced2: row['高阶数据2'],
+          advanced3: row['高阶数据3'],
         });
       }
     });
@@ -77,6 +73,8 @@ export default function MainMap(props: MainMapProps) {
         lat: data.targetInfo[target]['Latitude'],
         // @ts-ignore
         lng: data.targetInfo[target]['Longitude'],
+        // @ts-ignore
+        address: data.targetInfo[target]['address'],
         // @ts-ignore
         name: target,
       },
@@ -126,11 +124,10 @@ export default function MainMap(props: MainMapProps) {
         }}
       >
         <Marker 
+          id={-1}
           key={-1}
-          introduction={state.targetInfo?.name || ''}
-          type={'main'}
+          type={''}
           showInfoWindow={-1 == selectedNearbyId}
-          rating={4.6}
           {...state.targetInfo}
         />
 
@@ -139,8 +136,6 @@ export default function MainMap(props: MainMapProps) {
         .map((nearby) => (
         <Marker
           key={nearby.id}
-          introduction={nearby.name}
-          rating={4.5}
           {...nearby}
           showInfoWindow={nearby.id == selectedNearbyId}
         />

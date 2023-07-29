@@ -1,5 +1,5 @@
 export const palette1 = new Map<string, string>([
-  ['main', '#db1640'],
+  ['', '#db1640'],
   ['レストラン', '#ea6d39'],
   ['カフェ', '#659962'],
   ['ドラックストア', '#878a5d'],
