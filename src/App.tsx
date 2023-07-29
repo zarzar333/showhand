@@ -16,11 +16,11 @@ function App() {
     <div className="App">
       <AppContext.Provider value={{ selectedTypes, setSelectedTypes, selectedNearbyId, setSelectedNearbyId }}>
         <Box sx={{ display: 'flex' }}>
-          <LeftDrawer name='ロイヤルシーズン南麻布' />
+          <LeftDrawer name='ロイヤルシーズン南麻布' address='東京都港区南麻布３丁目１１−41'/>
         </Box>
         <Box component="main" sx={{ marginLeft: `${LEFT_PANE_WIDTH}px` }} >
           <MainMap target={'ロイヤルシーズン南麻布'} />
-        </Box>
+        </Box>  
       </AppContext.Provider>
     </div>
   );
