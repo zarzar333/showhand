@@ -37,6 +37,8 @@ fs.createReadStream(path)
       groupedData[groupField] = [];
     }
     delete row['物件']
+    row['Latitude'] = parseFloat(row['Latitude']);
+    row['Longitude'] = parseFloat(row['Longitude']);
     groupedData[groupField].push(row);
   })
   .on('end', () => {
