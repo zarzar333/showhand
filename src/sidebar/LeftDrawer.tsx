@@ -8,6 +8,7 @@ import { LEFT_PANE_WIDTH } from '../constants';
 import { Nearby } from '../data/Nearby';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 interface LeftDrawerProps {
   name: string,
@@ -17,6 +18,7 @@ interface LeftDrawerProps {
 
 export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
   const nearbys = data.nearby[name] as unknown as Nearby[]
+  const navigate = useNavigate();
 
 
   const handleClick = () => {
@@ -59,11 +61,15 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
       >
         <Toolbar style={{ display: 'flex', flexDirection: 'column', alignItems: 'left', minHeight: '300px' }}>
             <div><img src={`/photos/${id}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></div>
-            <Typography variant="h6" noWrap={false} component="div">
+            <Typography variant="h6" noWrap={true} component="div">
               <div>{name}</div>
             </Typography>
             <div style={{ fontSize: 14, color: "grey", whiteSpace: 'nowrap', overflow: 'hidden',}}>{address}</div>
-            <Button variant="contained" color="primary" onClick={handleClick}>CSVを出力</Button>
+            <div>
+              <Button onClick={() => navigate(-1)} variant="outlined">戻る</Button>
+              <span> </span>
+              <Button variant="contained" color="primary" onClick={handleClick}>CSVを出力</Button>
+            </div>
         </Toolbar>
         <Divider />
         <TypeFilters nearbys={nearbys} />

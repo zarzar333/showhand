@@ -8,8 +8,6 @@ import { LEFT_PANE_WIDTH } from './constants';
 import { useParams } from 'react-router-dom';
 import data from './data/data.json';
 
-
-
 function REDetail() {
   const [selectedTypes, setSelectedTypes] = useState(['レストラン', '学校']);
   const [selectedNearbyId, setSelectedNearbyId ] = useState<number|undefined>();
@@ -21,8 +19,7 @@ function REDetail() {
       target = value
     }
   }
-  console.log('==========');
-  console.log(target);
+
   return (
     <div className="REDetail">
       <AppContext.Provider value={{ selectedTypes, setSelectedTypes, selectedNearbyId, setSelectedNearbyId }}>
