@@ -22,7 +22,7 @@ export default function InfoWindow(props: InfoWindowProps) {
 
   return (
     <InfoWindowBox>
-      <img src={`./photos/${id}.png`} alt="locationPhoto" style={{ width: '300px', height: '200px' }} />
+      <img src={`/photos/${id}.png`} alt="locationPhoto" style={{ width: '300px', height: '200px' }} />
       <div style={{ padding: 10, textAlign: 'left' }}>
         <div style={{ fontSize: 18, fontWeight: 'bold' }}>{name}</div>
         <div style={{ fontSize: 14 }}>

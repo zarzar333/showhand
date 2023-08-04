@@ -26,6 +26,7 @@ interface MainMapState {
     lng: number,
     name: string,
     address: string,
+    id: number,
   }
   nearbys: Map<number, NearByData>,
 }
@@ -77,6 +78,8 @@ export default function MainMap(props: MainMapProps) {
         address: data.targetInfo[target]['address'],
         // @ts-ignore
         name: target,
+        // @ts-ignore
+        id: data.targetInfo[target]['id'],
       },
       nearbys: nearbyData
     })
@@ -96,7 +99,6 @@ export default function MainMap(props: MainMapProps) {
   }, [selectedNearbyId])
 
   if (state.loaded && state.targetInfo) {
-    console.log(center);
     return <div style={{ height: '100vh', width: '100%' }}>
       <GoogleMapReact
         bootstrapURLKeys={{
@@ -134,10 +136,9 @@ export default function MainMap(props: MainMapProps) {
         }}
       >
         <Marker 
-          id={-1}
-          key={-1}
+          key={state.targetInfo.id}
           type={''}
-          showInfoWindow={-1 == selectedNearbyId}
+          showInfoWindow={state.targetInfo.id == selectedNearbyId}
           {...state.targetInfo}
         />
 

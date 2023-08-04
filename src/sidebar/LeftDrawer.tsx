@@ -12,9 +12,10 @@ import Button from '@mui/material/Button';
 interface LeftDrawerProps {
   name: string,
   address: string,
+  id: number
 }
 
-export default function LeftDrawer({ name, address }: LeftDrawerProps) {
+export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
   const nearbys = data.nearby[name] as unknown as Nearby[]
 
 
@@ -57,7 +58,7 @@ export default function LeftDrawer({ name, address }: LeftDrawerProps) {
         onOpen={()=>{}}
       >
         <Toolbar style={{ display: 'flex', flexDirection: 'column', alignItems: 'left', minHeight: '300px' }}>
-            <div><img src={`./photos/${-1}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></div>
+            <div><img src={`/photos/${id}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></div>
             <Typography variant="h6" noWrap={false} component="div">
               <div>{name}</div>
             </Typography>

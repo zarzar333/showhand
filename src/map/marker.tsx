@@ -49,7 +49,6 @@ function renderStars(rating: number) {
     stars += '<i class="far fa-star star"></i>';
   }
   stars += "</div>"
-  console.log(stars);
   return stars;
 }
 
