@@ -16,6 +16,16 @@ interface LeftDrawerProps {
   id: number
 }
 
+function convertToCSV(jsonArray: any[]): string {
+  if (jsonArray.length === 0) return '';
+
+  const keys = Object.keys(jsonArray[0]);
+  const lines = jsonArray.map(row => keys.map(key => JSON.stringify(row[key] || '', (key, value) => value === null ? '' : value)).join(','));
+  
+  return [keys.join(',')].concat(lines).join('\r\n');
+}
+
+
 export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
   const nearbys = data.nearby[name] as unknown as Nearby[]
   const navigate = useNavigate();
@@ -24,17 +34,17 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
   const handleClick = () => {
 
     // Convert the JSON object to a Blob
-    const jsonBlob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const csvBlob = new Blob([convertToCSV(data.nearby[name])], { type: 'application/json' });
 
     // Create a URL for the blob
-    const url = URL.createObjectURL(jsonBlob);
+    const url = URL.createObjectURL(csvBlob);
 
     // Create a link element
     const link = document.createElement('a');
     link.href = url;
 
     // Set the download attribute of the link to the desired file name
-    link.download = `${name}-周辺施設.json`;
+    link.download = `${name}-周辺施設.csv`;
 
     // Append the link to the body (required for Firefox)
     document.body.appendChild(link);
