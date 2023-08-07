@@ -109,27 +109,59 @@ export default function MainMap(props: MainMapProps) {
         center={center}
         defaultZoom={zoom}
         onGoogleApiLoaded={({ map, maps }) => {
-          new maps.Circle({
-            strokeColor: "#FF0000",
+
+          const circle400 = new maps.Circle({
+            strokeColor: "#DC582A",
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.07,
+            fillColor: "#DC582A",
+            fillOpacity: 0.0,
             map: map,
             center: center,
             radius: 400,
-          })
-          new maps.Circle({
-            strokeColor: "#FF0000",
+          });
+
+          const circle800 = new maps.Circle({
+            strokeColor: "#DC582A",
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.07,
+            fillColor: "#DC582A",
+            fillOpacity: 0.02,
             map: map,
             center: center,
             radius: 800,
-          })}
-        }
+          });
+
+          const createLabel = (circle: any, text: string) => {
+            // Create a div to hold the label text
+            const div = document.createElement('div');
+            div.style.position = 'absolute';
+            div.style.color = '#DC582A';
+            div.innerHTML = text;
+            div.style.fontSize = '16px';
+
+            // Create a custom overlay to contain the text
+            const customOverlay = new maps.OverlayView();
+            customOverlay.onAdd = () => {
+              customOverlay.getPanes().overlayMouseTarget.appendChild(div);
+            };
+            customOverlay.draw = () => {
+              const projection = customOverlay.getProjection();
+              const position = projection.fromLatLngToDivPixel(circle.getCenter());
+              // Calculate the pixel position for the top of the circle using the radius
+              const topPosition = projection.fromLatLngToDivPixel(
+                new maps.LatLng(circle.getCenter().lat() + (0.000009 * circle.getRadius()), circle.getCenter().lng())
+              );
+              div.style.left = `${position.x - 10}px`; // Adjust this value to center the text
+              div.style.top = `${topPosition.y + 10}px`; // This will position the label at the top of the circle
+            };
+            customOverlay.setMap(map);
+          };
+
+          // Create labels for both circles
+          createLabel(circle400, '400');
+          createLabel(circle800, '800');
+        }}
 
         onChildClick={(key) => {
           setSelectedNearbyId(key);
