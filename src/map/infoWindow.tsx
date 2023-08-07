@@ -29,7 +29,7 @@ export default function InfoWindow(props: InfoWindowProps) {
           <div>
             <span>{address}</span>
           </div>
-          <div　>
+          <div>
           { distance && <span style={{ fontSize: 12, color: "black"  }}>{`${(Math.floor(distance))}メートル`}</span> }
           </div>
         </div>
