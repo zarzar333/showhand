@@ -62,6 +62,7 @@ export default function MainMap(props: MainMapProps) {
           advanced1: row['高阶数据1'],
           advanced2: row['高阶数据2'],
           advanced3: row['高阶数据3'],
+          distance: Math.floor(row['直线距离']),
         });
       }
     });
@@ -166,12 +167,16 @@ export default function MainMap(props: MainMapProps) {
         onChildClick={(key) => {
           setSelectedNearbyId(key);
         }}
+        onClick={()=> {
+          setSelectedNearbyId(0)
+        }}
       >
         <Marker 
           key={state.targetInfo.id}
           type={''}
           showInfoWindow={state.targetInfo.id == selectedNearbyId}
           {...state.targetInfo}
+
         />
 
       {Array.from(state.nearbys.values())

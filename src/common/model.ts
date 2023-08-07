@@ -4,6 +4,7 @@ export interface NearByData {
   lng: number,
   name: string,
   type: string, 
+  distance?: number,
   address?: string,
   advanced1?: string,
   advanced2?: string,

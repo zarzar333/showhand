@@ -18,16 +18,19 @@ const InfoWindowBox = styled.div`
 `
 
 export default function InfoWindow(props: InfoWindowProps) {
-  const { id, name, address, type, advanced1, advanced2, advanced3 } = props;
+  const { id, name, address, type, advanced1, advanced2, advanced3, distance } = props;
 
   return (
     <InfoWindowBox>
       <img src={`/showhand/photos/${id}.png`} alt="locationPhoto" style={{ width: '300px', height: '200px' }} />
       <div style={{ padding: 10, textAlign: 'left' }}>
         <div style={{ fontSize: 18, fontWeight: 'bold' }}>{name}</div>
-        <div style={{ fontSize: 14 }}>
+        <div style={{ fontSize: 14, color: "black"  }}>
           <div>
-            <span style={{ color: "black" }}>{address}</span>
+            <span>{address}</span>
+          </div>
+          <div　>
+          { distance && <span style={{ fontSize: 12, color: "black"  }}>{`${(Math.floor(distance))}メートル`}</span> }
           </div>
         </div>
         <div style={{ fontSize: 12, color: "grey" }}>
