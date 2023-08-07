@@ -60,7 +60,7 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
         onOpen={()=>{}}
       >
         <Toolbar style={{ display: 'flex', flexDirection: 'column', alignItems: 'left', minHeight: '300px' }}>
-            <div><img src={`/photos/${id}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></div>
+            <div><img src={`/showhand/photos/${id}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></div>
             <Typography variant="h6" noWrap={true} component="div">
               <div>{name}</div>
             </Typography>
