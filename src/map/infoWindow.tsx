@@ -1,6 +1,7 @@
 import react from 'react';
 import styled from '@emotion/styled';
 import { NearByData } from '../common/model';
+import { useTranslation } from 'react-i18next';
 
 interface InfoWindowProps extends NearByData {
 }
@@ -19,6 +20,7 @@ const InfoWindowBox = styled.div`
 
 export default function InfoWindow(props: InfoWindowProps) {
   const { id, name, address, type, advanced1, advanced2, advanced3, distance } = props;
+  const { t, i18n } = useTranslation();
 
   return (
     <InfoWindowBox>
@@ -30,11 +32,11 @@ export default function InfoWindow(props: InfoWindowProps) {
             <span>{address}</span>
           </div>
           <div>
-          { distance && <span style={{ fontSize: 12, color: "black"  }}>{`${(Math.floor(distance))}メートル`}</span> }
+          { distance && <span style={{ fontSize: 12, color: "black"  }}>{`${(Math.floor(distance))}${t('メートル')}`}</span> }
           </div>
         </div>
         <div style={{ fontSize: 12, color: "grey" }}>
-          <div>{type}</div>
+          <div>{t(type)}</div>
           {renderIfNonnullAndNonEmpty(advanced1)}
           {renderIfNonnullAndNonEmpty(advanced2)}
           {renderIfNonnullAndNonEmpty(advanced3)}

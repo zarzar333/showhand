@@ -14,6 +14,7 @@ import Collapse from '@mui/material/Collapse';
 import { palette1 } from '../colors';
 import { Nearby } from '../data/Nearby';
 import PlaceIcon from '@mui/icons-material/Place';
+import { useTranslation } from 'react-i18next';
 
 const filters = [  
   'レストラン',
@@ -56,6 +57,7 @@ function TypeFilter({ type, nearbys } : TypeFilterProps) {
 
   const { selectedTypes, setSelectedTypes, setSelectedNearbyId } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   function getOnChangeFunction(event: React.ChangeEvent<HTMLInputElement>) {
     const type = event.target.value;
@@ -84,7 +86,7 @@ function TypeFilter({ type, nearbys } : TypeFilterProps) {
         <ListItemButton onClick={(_) => {
           setIsOpen(!isOpen);
         }}>
-          <ListItemText primary={type} />
+          <ListItemText primary={t(type)} />
           {isOpen ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
       </ListItem>

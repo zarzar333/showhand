@@ -6,7 +6,6 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useTranslation } from 'react-i18next';
 
-
 export default function LanguagePicker() {
   const { t, i18n } = useTranslation();
   const handleChange = (event: SelectChangeEvent) => {
