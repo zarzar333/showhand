@@ -1,5 +1,7 @@
 import react from 'react';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
 import TypeFilters from './TypeFilters';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -9,6 +11,7 @@ import { Nearby } from '../data/Nearby';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import LanguagePicker from './LanguagePicker';
 
 interface LeftDrawerProps {
   name: string,
@@ -57,7 +60,7 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
   };  
 
   return (
-      <SwipeableDrawer 
+      <Drawer 
         anchor={'left'}
         variant={'permanent'}
         open={true}
@@ -67,22 +70,33 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
           [`& .MuiDrawer-paper`]: { width: LEFT_PANE_WIDTH, boxSizing: 'border-box' },
         }}
         onClose={()=>{}}
-        onOpen={()=>{}}
       >
-        <Toolbar style={{ display: 'flex', flexDirection: 'column', alignItems: 'left', minHeight: '300px' }}>
-            <div><img src={`/showhand/photos/${id}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></div>
+        <Toolbar style={{ display: 'flex', flexDirection: 'row', alignItems: 'left' , minHeight: '50px'}}>
+            <Typography variant="h6" noWrap={true} component="div">
+              Showhand 
+            </Typography>
+            <Button onClick={() => navigate(-1)} variant="outlined">戻る</Button>
+            <LanguagePicker />
+        </Toolbar>
+        <Divider />
+        <Box sx={{ my: 1, mx: 1 }}>
+        <Grid container direction="column" alignItems="center">
+          <Grid item><img src={`/showhand/photos/${id}.png`} alt="locationPhoto" style={{ width: '260px', height: '200px' }} /></Grid>
+          <Grid item>
             <Typography variant="h6" noWrap={true} component="div">
               <div>{name}</div>
             </Typography>
+          </Grid>
+          <Grid item>
             <div style={{ fontSize: 14, color: "grey", whiteSpace: 'nowrap', overflow: 'hidden',}}>{address}</div>
-            <div>
-              <Button onClick={() => navigate(-1)} variant="outlined">戻る</Button>
-              <span> </span>
-              <Button variant="contained" color="primary" onClick={handleClick}>CSVを出力</Button>
-            </div>
-        </Toolbar>
-        <Divider />
+          </Grid>
+          <Grid item>
+          <Button variant="contained" color="primary" onClick={handleClick}>CSVを出力</Button>
+          </Grid>
+        </Grid>
+        </Box>
+        <Divider variant="middle" />
         <TypeFilters nearbys={nearbys} />
-      </SwipeableDrawer>
+      </Drawer>
   )
 }
