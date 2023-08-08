@@ -4,22 +4,28 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useTranslation } from 'react-i18next';
 
 
 export default function LanguagePicker() {
+  const { t, i18n } = useTranslation();
+  const handleChange = (event: SelectChangeEvent) => {
+    i18n.changeLanguage(event.target.value);
+  };
+
   return (
     <Box sx={{ minWidth: 60 }}>
     <FormControl sx={{ m: 1, minWidth: 60 }} size="small">
-      <InputLabel id="demo-simple-select-label">Language</InputLabel>
+      <InputLabel id="demo-simple-select-label">{t('Language')}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={'JP'}
-        label="日本語"
+        value={i18n.language}
+        onChange={handleChange}
       >
-        <MenuItem value={'JP'}>日本語</MenuItem>
-        <MenuItem value={'CN'}>中文</MenuItem>
-        <MenuItem value={'EN'}>English</MenuItem>
+        <MenuItem value={'ja'}>日本語</MenuItem>
+        <MenuItem value={'zh'}>中文</MenuItem>
+        <MenuItem value={'en'}>English</MenuItem>
       </Select>
     </FormControl>
   </Box>

@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import LanguagePicker from './LanguagePicker';
+import { useTranslation } from 'react-i18next';
 
 interface LeftDrawerProps {
   name: string,
@@ -32,7 +33,7 @@ function convertToCSV(jsonArray: any[]): string {
 export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
   const nearbys = data.nearby[name] as unknown as Nearby[]
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
 
   const handleClick = () => {
 
@@ -75,7 +76,7 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
             <Typography variant="h6" noWrap={true} component="div">
               Showhand 
             </Typography>
-            <Button onClick={() => navigate(-1)} variant="outlined">戻る</Button>
+            <Button onClick={() => navigate(-1)} variant="outlined">{t('Back')}</Button>
             <LanguagePicker />
         </Toolbar>
         <Divider />
@@ -91,7 +92,7 @@ export default function LeftDrawer({ name, address, id }: LeftDrawerProps) {
             <div style={{ fontSize: 14, color: "grey", whiteSpace: 'nowrap', overflow: 'hidden',}}>{address}</div>
           </Grid>
           <Grid item>
-          <Button variant="contained" color="primary" onClick={handleClick}>CSVを出力</Button>
+          <Button variant="contained" color="primary" onClick={handleClick}>{t('Export to CSV')}</Button>
           </Grid>
         </Grid>
         </Box>

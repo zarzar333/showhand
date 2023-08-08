@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { useTranslation } from 'react-i18next';
 
 interface Item {
   id: number;
@@ -16,6 +17,7 @@ const items: Item[] = [
 
 const SearchPage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSelectItem = (event: any, value: Item | null) => {
     if (value) navigate(`/redetail/${value.id}`);
@@ -29,7 +31,10 @@ const SearchPage: React.FC = () => {
         getOptionLabel={(option) => option.name}
         style={{ width: 300 }}
         onChange={handleSelectItem}
-        renderInput={(params) => <TextField {...params} label="物件名検索" variant="outlined" />}
+        renderInput={
+          // @ts-ignore
+          (params) => <TextField {...params} label={t('Search by Building Name')} variant="outlined" />
+        }
       />
     </div>
   );
